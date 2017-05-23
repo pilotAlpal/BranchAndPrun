@@ -32,7 +32,7 @@ public class Resolutor {
 	 * 
 	 * @return una solucion al problema de maximizar las afinidades en una mesa circular
 	 */
-	public Solucion resuelve(){
+	public Solucion resuelve(TiposPoda mode){
 		 PriorityQueue<Nodo> cola;
 		 int opt[]=new int [comensales];
 		 int pes[]=new int [comensales];
@@ -51,7 +51,7 @@ public class Resolutor {
 			 y=cola.poll();
 			 for(int i=1;i<comensales;i++){
 				 if(!y.asignado(i)){
-					 x=y.expande(i, afinidad(i,y.getAsignacion()[y.getK()-1]), opt[y.getK()]);
+					 x=y.expande(i, afinidad(i,y.getAsignacion()[y.getK()-1]),optimista(y,opt,mode) /*opt[y.getK()]*/);
 					 expandidos++;
 					 if(esSolucion(x)){ 
 						 x.sumaPref(afinidad(x.getAsignacion()[0], x.getAsignacion()[comensales-1]));
@@ -63,7 +63,8 @@ public class Resolutor {
 					 else{ 
 						 if (x.getPrefOpt()>prefMejor){
 							 cola.add(x);
-							 prefMejor=Integer.max(prefMejor, x.getPreferencia()+pes[x.getK()-1]);
+							 //pesimista(pes,y,modo)
+							 prefMejor=Integer.max(prefMejor, x.getPreferencia()+pesimistaoptimista(x, pes, mode)/*pes[x.getK()-1]*/);
 						 }
 						 else podados++;
 					 }
@@ -158,5 +159,32 @@ public class Resolutor {
 	}
 	public int getNumComensales(){
 		return comensales;
+	}
+	private int optimista(Nodo y,int []opt,TiposPoda modo){
+		if (modo==TiposPoda.Efectiva)
+			return opt[y.getK()];
+		int opti=opt[comensales-1];
+		//else
+		for (int i=y.getK();i<comensales;i++) {
+			int mej=y.getK();
+			for(int j=y.getK()+1;j<comensales;j++)if((j!=i)&&(!y.asignado(j))&&(afinidad(i,j)>=afinidad(i,mej)))
+					mej=j;
+			opti+=afinidad(i, mej);
+		}
+		return opti;
+
+	}
+	private int pesimistaoptimista(Nodo y,int []pes,TiposPoda modo){
+		if (modo==TiposPoda.Efectiva)
+			return pes[y.getK()-1];
+		int pesi=pes[comensales-1];
+		//else
+		for (int i=y.getK();i<comensales;i++) {
+			int pej=y.getK();
+			for(int j=y.getK()+1;j<comensales;j++)if((j!=i)&&(!y.asignado(j))&&(afinidad(i,j)<=afinidad(i,pej)))
+					pej=j;
+			pesi+=afinidad(i, pej);
+		}
+		return pesi;
 	}
 }

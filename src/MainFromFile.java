@@ -26,10 +26,15 @@ public class MainFromFile {
 				PrintStream ps=new PrintStream(outFile+prob+".txt");
 				Resolutor resolutor=new Resolutor(comensales, afinidades);
 				long tI=Calendar.getInstance().getTimeInMillis();
-				Solucion sol=resolutor.resuelve();
+				Solucion sol=resolutor.resuelve(TiposPoda.Eficiente);
 				long tO=Calendar.getInstance().getTimeInMillis();
 				ps.println(sol);
-				sol.printInfoNodos(ps,tO-tI);
+				sol.printInfoNodos(ps,tO-tI,TiposPoda.Eficiente);
+				tI=Calendar.getInstance().getTimeInMillis();
+				Solucion sol2=resolutor.resuelve(TiposPoda.Efectiva);
+				tO=Calendar.getInstance().getTimeInMillis();
+				ps.println(sol2);
+				sol2.printInfoNodos(ps,tO-tI,TiposPoda.Efectiva);
 				ps.close();
 				linea=bReader.readLine();
 				System.out.println("Salida "+prob+" generada en "+outFile+prob+".txt");

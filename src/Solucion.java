@@ -33,7 +33,8 @@ public class Solucion {
 				+System.getProperty("line.separator")
 				+asientos;
 	}
-	public void printInfoNodos(PrintStream o,long timeLasted){
+	public void printInfoNodos(PrintStream o,long timeLasted,TiposPoda tipo){
+		o.println(tipo);
 		o.print("Nodos expandidos: "+expandidos);
 		o.print(",podados: "+podados);
 		o.println(",no factibles :"+noFactibles);

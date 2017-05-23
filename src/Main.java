@@ -20,11 +20,18 @@ public class Main {
 		teclado.close();
 		Resolutor resolutor=new Resolutor(comensales,afinidad);
 		long tI=Calendar.getInstance().getTimeInMillis();
-		Solucion solucion = resolutor.resuelve();
+		Solucion solucion = resolutor.resuelve(TiposPoda.Efectiva);
 		long tO=Calendar.getInstance().getTimeInMillis();
 		System.out.println(solucion);
-		solucion.printInfoNodos(System.out,tO-tI);
+		solucion.printInfoNodos(System.out,tO-tI,TiposPoda.Efectiva);
 		long tEmp=tO-tI;
+		System.out.println("Tiempo empleado :"+tEmp);
+		tI=Calendar.getInstance().getTimeInMillis();
+		Solucion solucion2 = resolutor.resuelve(TiposPoda.Efectiva);
+		tO=Calendar.getInstance().getTimeInMillis();
+		System.out.println(solucion2);
+		solucion2.printInfoNodos(System.out,tO-tI,TiposPoda.Efectiva);
+		tEmp=tO-tI;
 		System.out.println("Tiempo empleado :"+tEmp);
 	}
 

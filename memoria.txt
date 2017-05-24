@@ -1,0 +1,31 @@
+Memoria de Lucas Segarra Fernández.
+
+Problema: Maximizar la afinidad total de una mesa circular, en función de los comensales sentados en posiciones adyacentes.
+        : Preferencia Pesimista <= Preferencia Real <= Preferencia Optimista
+Algorírmo utilizado: Ramificación y poda.
+Información de cada nodo:
+  * int[comensales] asignacion -> Solución parcial.
+  * int k -> Comensal a sentar.
+  * boolean[comensales] sentados -> Información de si los comensales están sentados.
+  * int preferencia -> Afinidad acumulada de la solución parcial.
+  * private int pref_opt -> Máxima afinidad que podría alcanzar un nodo.
+Árbol de búsqueda: Dada una posición de la mesa, intento sentar en ella a todos los comensales que no están ya sentados.
+                 : Para cada nodo k, expando comensales-k hijos
+Dados un nodo n y un comensal c,
+  Función de factibilidad:sea bool factible(n,c)=!n.sentado(c)
+                        : Considero factible sentar a cualquier comensal que no haya sido sentado en cada rama.
+  Funcion de solucuion: sea bool solucion(c)=n.k==comensales
+                      : Considero que es solución cada nodo que ya ha sentado a todos los comensales
+  Estimaciones precálculo: Antes de crear la cola de prioridades, relleno en un vector de tamaño comensales la mejor afinidad para cada comensal, ordeno ese vector (con el método heapSort) y guardo en cada posición i el sumatorio de las comensales-i mejores afinidades por comensal.
+                         : En el mismo bucle relleno en otro vector el sumatorio de las peores afinidades por comensal.
+                         : Aunque este proceso tiene O(comensales*comensales), me permite implementar una estimación eficiente (optimísta y otra pesimista) de coste O(1) en cada nodo
+  Esimación optimista eficiente: Dado un nodo n, supongo que relleno las comensales-n.k posiciones libres de tal forma que incremento la afinidad total en las n.k-comensales mejores afinidades sin tener en cuenta que correspondan a comensales no sentados.
+                               : Como el valor lo leo de un vector precalculado, el coste de esta estimación es O(1)
+  Estimacion optimista efectiva: Es similar a la anterior, pero elige las mejores afinidades entre comensales no sentados en x.
+                               : Para ello tengo que recorrer la matriz de afinidades en cada estimación => 0(comensales*comensales)
+  Ambas estimaciones pesimistas son análogas a las optimistas pero con los valores mínimos en vez de máximos
+  Detalles del planteamiento: Como la mesa es circular, para cada solución, existen comensales soluciones equivalentes (pero cambiando las sillas!).
+                            : Es por ello que sentando al primer comensal siempre en la primera posición, divido entre comensales el número de nodos expandidos.
+                            : Por el mismo motivo, cuando n.k==comensales, tengo que añadir a la afinidad lograda la afinada del primer comensal , con el que esté sentando en última posiciíon en cada nodo.
+                            : Y es también por lo que inicializo para todo i opt[comensales] a la mejor afinidad del primer comensal antes de precalcular los vectores.
+  

@@ -27,10 +27,10 @@ public class Main {
 		long tEmp=tO-tI;
 		System.out.println("Tiempo empleado :"+tEmp);
 		tI=Calendar.getInstance().getTimeInMillis();
-		Solucion solucion2 = resolutor.resuelve(TiposPoda.Efectiva);
+		Solucion solucion2 = resolutor.resuelve(TiposPoda.Eficiente);
 		tO=Calendar.getInstance().getTimeInMillis();
 		System.out.println(solucion2);
-		solucion2.printInfoNodos(System.out,tO-tI,TiposPoda.Efectiva);
+		solucion2.printInfoNodos(System.out,tO-tI,TiposPoda.Eficiente);
 		tEmp=tO-tI;
 		System.out.println("Tiempo empleado :"+tEmp);
 	}

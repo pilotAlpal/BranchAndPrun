@@ -70,10 +70,10 @@ El programa tiene 3 puntos de entrada, en función de cual de las siguientes cla
   ## Observaciones
   * En cualquiera de los modos de funcionamiento, en especial en aquellos que permiten ordenar al programa resolver más de un problema de forma secuencial, en terminos de eficiencia, se recomienda ignorar el tiempo de la primera de las ejecuciones.
 
-  * Los nombres de los ficheros dónde se guardan las salidas, y de los que se leen las entradas, en los modos de ejecución que no las leen y escriben de la salida estándar, están declarados como constantes finales en las clases principales de cada uno de dichos modos.
+  * Los nombres de los ficheros dónde se guardan las salidas, y de los que se leen las entradas, en los modos de ejecución que no las leen y escriben de la entrada/salida estándar, están declarados como constantes finales en las clases principales de cada uno de dichos modos.
 
   * El número mínimo de comensales es de 4.
 
   * Cada problema generado, en cualquiera de los tres casos de uso, se resuelve de forma  
     * Eficiente: expandiendo más nodos con menor coste por estimación.
-    * Efectiva: expandiendo menos nodos con menor coste por estimación.
+    * Efectiva: expandiendo menos nodos con mayor coste por estimación.
